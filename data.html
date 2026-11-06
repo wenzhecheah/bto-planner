@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BTO Data and Sources</title>
+  <!-- VWA logo for the browser tab and home-screen shortcuts, from vwagroup.sg. -->
+  <link rel="icon" href="assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/favicon.png">
+  <meta name="theme-color" content="#1B1464">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500&family=Jost:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="masthead">
+    <div class="masthead-inner">
+      <span class="eyebrow">Voyage Wealth Advisory</span>
+      <h1>Data &amp; Sources</h1>
+      <p class="masthead-tag">Every HDB and CPF figure the planner uses, and where it comes from.</p>
+      <nav class="site-nav" aria-label="Pages">
+        <a href="index.html">How BTO works</a>
+        <a href="planner.html">Planner</a>
+        <a href="data.html" aria-current="page">Data &amp; sources</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="prose">
+      <p>This page shows the app's database as it is now. The HDB figures are in <code>hdb-data.js</code> and the CPF figures in
+        <code>cpf-data.js</code> (shared with the CPF Forecast Calculator). To update a figure, change it in that file and update
+        the section's "last checked" date; the guide, the planner and this page all follow.</p>
+      <p id="dueSummary"></p>
+    </div>
+    <div id="sections"></div>
+  </main>
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <span class="eyebrow">Voyage Wealth Advisory</span>
+      <a href="https://vwagroup.sg/">vwagroup.sg</a>
+    </div>
+  </footer>
+  <script src="cpf-data.js"></script>
+  <script src="hdb-data.js"></script>
+  <script src="common.js"></script>
+  <script src="data.js"></script>
+</body>
+</html>

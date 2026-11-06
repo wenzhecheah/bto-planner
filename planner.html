@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>BTO Planner</title>
+  <!-- VWA logo for the browser tab and home-screen shortcuts, from vwagroup.sg. -->
+  <link rel="icon" href="assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/favicon.png">
+  <meta name="theme-color" content="#1B1464">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@1,500&family=Jost:wght@400;500;600;700&display=swap">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="masthead">
+    <div class="masthead-inner">
+      <span class="eyebrow">Voyage Wealth Advisory</span>
+      <h1>BTO Planner</h1>
+      <p class="masthead-tag">What you'll pay, when, and from where.</p>
+      <nav class="site-nav" aria-label="Pages">
+        <a href="index.html">How BTO works</a>
+        <a href="planner.html" aria-current="page">Planner</a>
+        <a href="data.html">Data &amp; sources</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <form id="bto-form" novalidate>
+      <div class="form-cols">
+        <div class="form-col">
+          <div class="partner-cols">
+            <div class="panel">
+              <fieldset>
+                <legend>You</legend>
+                <label>Date of birth <input type="date" id="p1dob" required></label>
+                <label>Citizenship
+                  <select id="p1citizen"><option value="sc">Singapore Citizen</option><option value="spr">Singapore PR</option></select>
+                </label>
+                <label>Monthly salary (gross)
+                  <span class="hint">Before CPF. Include allowances; leave out bonuses.</span>
+                  <input type="text" inputmode="decimal" class="money" id="p1salary" placeholder="$0.00">
+                </label>
+                <label>CPF Ordinary Account (OA) today <input type="text" inputmode="decimal" class="money" id="p1oa" placeholder="$0.00"></label>
+                <label class="check"><input type="checkbox" id="p1first" checked>
+                  <span>First-timer <span class="hint">Never bought a flat from HDB or an EC, or got a CPF housing grant.</span></span></label>
+              </fieldset>
+            </div>
+            <div class="panel">
+              <fieldset>
+                <legend>Your partner</legend>
+                <label>Date of birth <input type="date" id="p2dob" required></label>
+                <label>Citizenship
+                  <select id="p2citizen"><option value="sc">Singapore Citizen</option><option value="spr">Singapore PR</option></select>
+                </label>
+                <label>Monthly salary (gross)
+                  <span class="hint">Before CPF. Include allowances; leave out bonuses.</span>
+                  <input type="text" inputmode="decimal" class="money" id="p2salary" placeholder="$0.00">
+                </label>
+                <label>CPF Ordinary Account (OA) today <input type="text" inputmode="decimal" class="money" id="p2oa" placeholder="$0.00"></label>
+                <label class="check"><input type="checkbox" id="p2first" checked>
+                  <span>First-timer <span class="hint">Never bought a flat from HDB or an EC, or got a CPF housing grant.</span></span></label>
+              </fieldset>
+            </div>
+          </div>
+          <div class="panel">
+            <fieldset>
+              <legend>Your household</legend>
+              <label>You are
+                <select id="status">
+                  <option value="married">Married</option>
+                  <option value="fiance">Engaged (Fiancé/Fiancée Scheme)</option>
+                </select>
+              </label>
+              <div class="row2">
+                <label>Singapore Citizen children aged 18 or below
+                  <input type="number" id="children" min="0" max="10" step="1" inputmode="numeric">
+                </label>
+                <label>Earlier unsuccessful applications for Standard flats
+                  <span class="hint">For extra ballot chances.</span>
+                  <input type="number" id="unsuccessful" min="0" max="20" step="1" inputmode="numeric">
+                </label>
+              </div>
+              <label class="check"><input type="checkbox" id="expecting"> Expecting a child</label>
+              <label class="check"><input type="checkbox" id="student">
+                <span><span>One of us is a full-time student or NSF, or finished studies or NS in the last 12 months</span>
+                <span class="hint">May allow deferred income assessment if one of you is <span data-hdb="staggeredAge"></span> or younger.</span></span></label>
+              <label class="check"><input type="checkbox" id="worked12">
+                <span>One of us has worked continuously for the last 12 months <span class="hint">Needed for the grant (EHG).</span></span></label>
+              <label class="check"><input type="checkbox" id="privateProperty">
+                <span><span>One of us owns a private home, or sold one in the last <span data-hdb="privateWait"></span> months</span>
+                <span class="hint">Including overseas, inherited or ECs.</span></span></label>
+            </fieldset>
+          </div>
+        </div>
+        <div class="form-col">
+          <div class="panel">
+            <fieldset>
+              <legend>The flat</legend>
+              <label>BTO launch you're applying in
+                <span class="hint" id="launchHint"></span>
+                <input type="month" id="launch" required>
+              </label>
+              <div class="row2">
+                <label>Flat type <select id="flatType"></select></label>
+                <label>Project classification <select id="classification"></select></label>
+              </div>
+              <div class="row2">
+                <label>Price
+                  <span class="hint">From the launch details on the HDB Flat Portal.</span>
+                  <input type="text" inputmode="decimal" class="money" id="price" placeholder="$0.00">
+                </label>
+                <label>Years from launch to keys
+                  <span class="hint">About <span data-hdb="waitYears"></span>; <span data-hdb="swtYears"></span> for Shorter Waiting Time flats.</span>
+                  <input type="number" id="waitYears" min="0" max="8" step="0.5" inputmode="decimal">
+                </label>
+              </div>
+              <label id="recoveryField" hidden>Subsidy recovery, % of the resale price
+                <span class="hint">Set for each Plus or Prime project at launch.</span>
+                <input type="number" id="subsidyRecovery" min="0" max="30" step="0.5" inputmode="decimal">
+              </label>
+            </fieldset>
+          </div>
+          <div class="panel">
+            <fieldset>
+              <legend>Paying for it</legend>
+              <label>Loan
+                <select id="loanType">
+                  <option value="hdb">HDB housing loan</option>
+                  <option value="bank">Bank loan</option>
+                  <option value="none">No loan</option>
+                </select>
+              </label>
+              <div class="row2" id="bankFields" hidden>
+                <label>Bank's interest rate, % a year <input type="number" id="bankRate" min="0" max="15" step="0.05" inputmode="decimal"></label>
+                <label>Loan tenure, years <input type="number" id="bankTenure" min="5" max="35" step="1" inputmode="numeric"></label>
+              </div>
+              <label>Other loan repayments, per month
+                <span class="hint">Car loan, study loan, credit cards.</span>
+                <input type="text" inputmode="decimal" class="money" id="otherDebts" placeholder="$0.00">
+              </label>
+              <label class="check"><input type="checkbox" id="keepOA">
+                <span><span>Keep up to <span data-hdb="oaRetention"></span> in each OA</span> <span class="hint">You can keep it as a buffer; the rest of your OA goes to the flat before the loan.</span></span></label>
+            </fieldset>
+          </div>
+          <div class="panel panel-cream">
+            <fieldset>
+              <legend>Cash and goals</legend>
+              <div class="row2">
+                <label>Cash savings today (both of you) <input type="text" inputmode="decimal" class="money" id="cash" placeholder="$0.00"></label>
+                <label>Cash you save each month <input type="text" inputmode="decimal" class="money" id="cashMonthly" placeholder="$0.00"></label>
+              </div>
+              <div class="row2">
+                <label>Wedding budget <input type="text" inputmode="decimal" class="money" id="wedding" placeholder="$0.00"></label>
+                <label>Wedding month <span class="hint">Blank: at booking.</span> <input type="month" id="weddingMonth"></label>
+              </div>
+              <label>Renovation and furniture budget
+                <span class="hint">Paid in cash around key collection. Get quotes: this is often the biggest cash cost.</span>
+                <input type="text" inputmode="decimal" class="money" id="reno" placeholder="$0.00">
+              </label>
+            </fieldset>
+          </div>
+        </div>
+      </div>
+      <p id="formError" class="error" role="alert" hidden></p>
+      <button type="submit">Plan</button>
+    </form>
+    <section id="results" aria-live="polite"></section>
+  </main>
+  <footer class="site-footer">
+    <div class="site-footer-inner">
+      <span class="eyebrow">Voyage Wealth Advisory</span>
+      <a href="https://vwagroup.sg/">vwagroup.sg</a>
+    </div>
+  </footer>
+  <script src="cpf-data.js"></script>
+  <script src="cpf-lookups.js"></script>
+  <script src="hdb-data.js"></script>
+  <script src="config.js"></script>
+  <script src="engine.js"></script>
+  <script src="common.js"></script>
+  <script src="planner.js"></script>
+</body>
+</html>

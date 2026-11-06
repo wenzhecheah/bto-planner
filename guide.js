@@ -18,14 +18,13 @@ const tables = {
       'text-table');
   },
   ehg: () => {
+    // Two matching tables side by side (stacked on phones), so each half reads on its own.
     const bands = D.grants.families;
     const half = Math.ceil(bands.length / 2);
     const label = (b, i) => i === 0 ? `Up to ${money(b.upTo)}` : `${money(bands[i - 1].upTo + 1)} to ${money(b.upTo)}`;
-    const rows = bands.slice(0, half).map((b, i) => {
-      const j = i + half, c = bands[j];
-      return [label(b, i), money(b.amount), c ? label(c, j) : '', c ? money(c.amount) : ''];
-    });
-    return table(['Household income a month', 'Grant', 'Household income a month', 'Grant'], rows, 'ehg');
+    const rows = bands.map((b, i) => [label(b, i), money(b.amount)]);
+    const head = ['Average household income a month', 'Grant'];
+    return `<div class="ehg-pair">${table(head, rows.slice(0, half), 'ehg')}${table(head, rows.slice(half), 'ehg')}</div>`;
   },
   schedule: () => {
     const S = D.paymentSchemes.schedule;

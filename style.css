@@ -146,7 +146,7 @@ th:nth-child(2), td:nth-child(2) { text-align: left; }
    It carries the header's gold horizon line. */
 .masthead { padding-bottom: 20px; }
 .masthead::after { display: none; }
-.site-nav-bar { position: sticky; top: 0; z-index: 10; background: var(--navy); padding: 12px var(--gutter) 0; }
+.site-nav-bar { position: sticky; top: 0; z-index: 10; background: var(--navy); padding: 12px var(--gutter) 14px; }
 .site-nav-bar::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
   background: linear-gradient(to right, transparent, rgba(201, 158, 16, .6) 30%, rgba(201, 158, 16, .6) 70%, transparent); }
 .site-nav { display: flex; flex-wrap: wrap; gap: 6px 24px; max-width: var(--page); margin: 0 auto; }
@@ -188,7 +188,15 @@ main a.button-link { color: var(--navy); }
 .step .pay { font-size: 14px; color: var(--navy); font-weight: 500; }
 .glossary dt { font-weight: 600; color: var(--navy); margin-top: 10px; }
 .glossary dd { margin: 2px 0 0; }
-.ehg td, .ehg th { text-align: right; }
+/* Grant table: two matching halves side by side, stacked on narrow screens. */
+.ehg-pair { display: grid; gap: 0 24px; }
+@media (min-width: 760px) { .ehg-pair { grid-template-columns: 1fr 1fr; } }
+.ehg-pair .table-wrap { margin-top: 16px; }
+.ehg { table-layout: fixed; }
+.ehg th:first-child { width: 62%; }
+.ehg th, .ehg td { text-align: left; }
+.ehg th:last-child, .ehg td:last-child { text-align: right; }
+.ehg td:last-child { font-weight: 600; color: var(--navy); }
 
 /* Planner */
 .partner-cols { display: grid; gap: 16px; }

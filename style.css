@@ -204,3 +204,8 @@ main a.button-link { color: var(--navy); }
   .site-nav, .button-link { display: none; }
   .step, .panel { box-shadow: none; }
 }
+/* Grant tables: equal columns, so the two tables line up. */
+.data-grants .text-table { table-layout: fixed; }
+/* Downpayment schedule: a line between payment schemes. */
+.schedule tr.group-start td { border-top: 2px solid var(--border); }
+.schedule td[rowspan] { background: var(--surface) !important; }

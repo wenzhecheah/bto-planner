@@ -20,10 +20,10 @@ const tables = {
   ehg: () => {
     const bands = D.grants.families;
     const half = Math.ceil(bands.length / 2);
-    const label = (b, i) => i === 0 ? `Up to ${wholeMoney(b.upTo)}` : `${wholeMoney(bands[i - 1].upTo + 1)} to ${wholeMoney(b.upTo)}`;
+    const label = (b, i) => i === 0 ? `Up to ${money(b.upTo)}` : `${money(bands[i - 1].upTo + 1)} to ${money(b.upTo)}`;
     const rows = bands.slice(0, half).map((b, i) => {
       const j = i + half, c = bands[j];
-      return [label(b, i), wholeMoney(b.amount), c ? label(c, j) : '', c ? wholeMoney(c.amount) : ''];
+      return [label(b, i), money(b.amount), c ? label(c, j) : '', c ? money(c.amount) : ''];
     });
     return table(['Household income a month', 'Grant', 'Household income a month', 'Grant'], rows, 'ehg');
   },
@@ -42,10 +42,10 @@ const tables = {
       ['Interest', `${H.rate}% a year, reviewed every quarter`, 'Set by the bank, fixed or floating'],
       ['Most you can borrow', `${pct(H.ltv)} of the price`, `${pct(K.ltv)} (${pct(K.lowerLtv)} if over ${K.fullLtvMaxTenureYears} years or past age ${K.maxAge})`],
       ['Cash needed upfront', 'None: CPF OA can pay it all', 'At least 5% of the price'],
-      ['Income ceiling', wholeMoney(D.incomeCeilings.families), 'None'],
+      ['Income ceiling', money(D.incomeCeilings.families), 'None'],
       ['Affordability check', `Instalment up to ${pct(H.msr)} of income, at ${H.assessmentFloor}%`, `Up to ${pct(K.msr)} of income, all debts up to ${pct(K.tdsr)}, at ${K.stressRate}%`],
       ['Longest loan', `${H.maxTenureYears} years, ending by ${H.maxAge}`, `${K.maxTenureYears} years`],
-      ['CPF OA', `Must be used first; you may keep ${wholeMoney(H.oaRetention)} each`, 'Your choice'],
+      ['CPF OA', `Must be used first; you may keep ${money(H.oaRetention)} each`, 'Your choice'],
     ], 'text-table');
   },
   cancellation: () => table(['When', 'You lose', 'What happens'],

@@ -195,7 +195,9 @@ main a.button-link { color: var(--navy); }
 .data-dl { display: grid; grid-template-columns: minmax(140px, auto) 1fr; gap: 6px 16px; margin: 0; font-size: 14px; }
 .data-dl dt { color: var(--muted); }
 .data-dl dd { margin: 0; min-width: 0; }
-.data-section .table-wrap { max-height: none; margin-top: 0; }
+.data-section .table-wrap { max-height: none; margin-top: 12px; }
+.data-section td .table-wrap { margin-top: 0; }
+.data-table-label { font-size: 15px; margin: 20px 0 0; }
 .data-section .text-table { font-size: 13px; }
 
 @media print {

@@ -1,7 +1,6 @@
 // Helpers shared by every page.
 const byId = id => document.getElementById(id);
 const money = n => n.toLocaleString('en-SG', { style: 'currency', currency: 'SGD' });
-const wholeMoney = n => money(Math.round(n)).replace(/\.00$/, '');
 const pct = share => `${+(share * 100).toFixed(1)}%`;
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
 // 'YYYY-MM' or 'YYYY-MM-DD' as 'Feb 2027' or '15 Dec 2026'.
@@ -25,21 +24,21 @@ function hdbText() {
   const cls = Object.fromEntries(D.classifications.list.map(c => [c.key, c]));
   return {
     nextLaunch: next.label, nextHfe: dateLabel(next.hfeDocsBy), nextTowns: next.towns,
-    familiesCeiling: wholeMoney(D.incomeCeilings.families), extendedCeiling: wholeMoney(D.incomeCeilings.extendedFamilies),
+    familiesCeiling: money(D.incomeCeilings.families), extendedCeiling: money(D.incomeCeilings.extendedFamilies),
     ceilingFrom: dateLabel(D.incomeCeilings.from), minAge: String(D.eligibility.minAge),
-    privateWait: String(D.eligibility.privatePropertyWaitMonths), citizenPremium: wholeMoney(D.eligibility.citizenPremium),
+    privateWait: String(D.eligibility.privatePropertyWaitMonths), citizenPremium: money(D.eligibility.citizenPremium),
     solemnise: String(D.eligibility.solemniseWithinMonths), moveIn: String(D.eligibility.moveInWithinMonths),
-    ehgMax: wholeMoney(G.families[0].amount), ehgCeiling: wholeMoney(G.families[G.families.length - 1].upTo),
-    ehgFtStMax: wholeMoney(G.firstAndSecondTimer[0].amount),
+    ehgMax: money(G.families[0].amount), ehgCeiling: money(G.families[G.families.length - 1].upTo),
+    ehgFtStMax: money(G.firstAndSecondTimer[0].amount),
     hdbRate: `${D.hdbLoan.rate}%`, hdbFloor: `${D.hdbLoan.assessmentFloor}%`, ltv: pct(D.hdbLoan.ltv),
     msr: pct(D.hdbLoan.msr), hdbTenure: String(D.hdbLoan.maxTenureYears), hdbMaxAge: String(D.hdbLoan.maxAge),
-    oaRetention: wholeMoney(D.hdbLoan.oaRetention), tdsr: pct(D.bankLoan.tdsr), stressRate: `${D.bankLoan.stressRate}%`,
+    oaRetention: money(D.hdbLoan.oaRetention), tdsr: pct(D.bankLoan.tdsr), stressRate: `${D.bankLoan.stressRate}%`,
     bankLowerLtv: pct(D.bankLoan.lowerLtv), bankFullTenure: String(D.bankLoan.fullLtvMaxTenureYears),
-    appFee: wholeMoney(D.fees.applicationFee), applicationDays: String(D.timeline.applicationDays),
+    appFee: money(D.fees.applicationFee), applicationDays: String(D.timeline.applicationDays),
     ballotMonths: String(D.timeline.ballotResultsWithinMonths), aflMonths: String(D.timeline.aflWithinMonthsOfBooking),
     waitYears: String(D.timeline.waitYears), swtYears: String(D.timeline.shorterWaitYears),
     keysMonths: String(D.timeline.takeKeysWithinMonths),
-    optionFees: D.flatTypes.list.map(f => `${wholeMoney(f.optionFee)} (${f.label.replace(/ \(.*\)/, '')})`).join(', '),
+    optionFees: D.flatTypes.list.map(f => `${money(f.optionFee)} (${f.label.replace(/ \(.*\)/, '')})`).join(', '),
     mopStandard: String(cls.standard.mopYears), mopPlus: String(cls.plus.mopYears),
     forfeitAfl: pct(D.cancellation.forfeitAfterAfl), ftPmcChances: String(D.ballot.chances.ftPmc),
     ftChances: String(D.ballot.chances.firstTimer), childFrom: dateLabel(D.ballot.childChanceFrom),

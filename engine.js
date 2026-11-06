@@ -16,8 +16,8 @@ function ageOn(dob, date) {
 // Age at the start of month `n` (an approximation good to a month).
 const ageAtMonth = (dob, n) => Math.floor((n - toMonth(dob)) / 12);
 
-// Whole dollars, for messages: 9000 -> '$9,000'.
-const dollars = n => '$' + Math.round(n).toLocaleString('en-SG');
+// Amounts in messages: 9000 -> '$9,000.00'.
+const dollars = n => n.toLocaleString('en-SG', { style: 'currency', currency: 'SGD' });
 
 // ---- Fees, grant and loan maths ---------------------------------------------
 
@@ -297,7 +297,7 @@ function plan(inp, today) {
   if (scheme === 'deferred') warnings.push('With deferred income assessment, HDB works out the EHG and loan on your income about 3 months before completion. This plan uses today\'s income.');
   if (inp.loanType === 'hdb' && loanAmount > 0) warnings.push('HDB checks your finances again before the loan is paid out. A job change or new loan in the meantime can reduce it.');
   const short = events.find(e => e.cashAfter < -0.5);
-  if (short) warnings.unshift(`Cash runs short at "${short.label}" (${short.date}) by ${dollars(Math.round(-short.cashAfter))}.`);
+  if (short) warnings.unshift(`Cash runs short at "${short.label}" (${short.date}) by ${dollars(-short.cashAfter)}.`);
 
   return {
     household: h, income, scheme, dates, events, issues, warnings,

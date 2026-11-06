@@ -122,7 +122,7 @@ function readForm() {
 // ---- Results ----------------------------------------------------------------
 
 const SCHEMES = Object.fromEntries(HDB_DATA.paymentSchemes.schemes.map(s => [s.key, s]));
-const signed = n => n < -0.5 ? `<span class="short">−${wholeMoney(-n)}</span>` : wholeMoney(Math.max(0, n));
+const signed = n => n < -0.5 ? `<span class="short">−${money(-n)}</span>` : money(Math.max(0, n));
 
 function statusHTML(r) {
   const lines = r.issues.map(t => `<li class="issue"><strong>Not eligible:</strong> ${t}</li>`);
@@ -136,11 +136,11 @@ function statusHTML(r) {
 
 function cardsHTML(r) {
   const cards = [
-    ['Cash needed, booking to keys', wholeMoney(r.cashNeeded), true],
-    ['Grant (EHG)', r.grant.used ? wholeMoney(r.grant.used) : 'None'],
-    ['Loan', r.loan.type === 'none' ? 'No loan' : wholeMoney(r.loan.amount)],
-    ['Monthly instalment', r.loan.monthly ? wholeMoney(r.loan.monthly) : '–'],
-    ['CPF OA used, booking to keys', wholeMoney(r.oaUsed)],
+    ['Cash needed, booking to keys', money(r.cashNeeded), true],
+    ['Grant (EHG)', r.grant.used ? money(r.grant.used) : 'None'],
+    ['Loan', r.loan.type === 'none' ? 'No loan' : money(r.loan.amount)],
+    ['Monthly instalment', r.loan.monthly ? money(r.loan.monthly) : '–'],
+    ['CPF OA used, booking to keys', money(r.oaUsed)],
     ['Ballot chances', String(r.ballot.chances)],
     ['Keys (estimate)', dateLabel(r.dates.keys)],
     [`Minimum occupation ends`, dateLabel(r.dates.mopEnd)],
@@ -159,14 +159,14 @@ function timelineHTML(r) {
       <td>${money(e.total)}</td>
       <td>${e.grant ? money(e.grant) : '–'}</td>
       <td>${money(e.fromOA)}</td><td>${money(e.fromCash)}</td>
-      <td>${wholeMoney(e.oaAfter)}</td><td>${signed(e.cashAfter)}</td></tr>`).join('');
+      <td>${money(e.oaAfter)}</td><td>${signed(e.cashAfter)}</td></tr>`).join('');
   return `
     <div class="table-wrap"><table class="timeline">
       <thead><tr><th>Stage</th><th>When</th><th>What's paid</th><th>Total</th><th>Grant into OA</th>
         <th>From CPF OA</th><th>From cash</th><th>OA left</th><th>Cash left</th></tr></thead>
       <tbody>
         ${plain('Apply for the HFE letter', dateLabel(r.dates.hfe), 'Submit all documents by this date.')}
-        ${plain('Apply in the BTO launch', dateLabel(r.dates.launch), `Application fee ${wholeMoney(HDB_DATA.fees.applicationFee)}; ballot results within ${HDB_DATA.timeline.ballotResultsWithinMonths} months.`)}
+        ${plain('Apply in the BTO launch', dateLabel(r.dates.launch), `Application fee ${money(HDB_DATA.fees.applicationFee)}; ballot results within ${HDB_DATA.timeline.ballotResultsWithinMonths} months.`)}
         ${rows}
         ${plain('Minimum occupation period ends', dateLabel(r.dates.mopEnd), `${r.classification.mopYears} years after key collection (${r.classification.label}).`)}
       </tbody>
@@ -177,18 +177,18 @@ function loanHTML(r) {
   const L = r.loan;
   if (L.type === 'none') return '<p>No loan: the whole balance is paid from CPF OA and cash at key collection.</p>';
   const covered = L.oaMonthly >= L.monthly
-    ? `Yes: about ${wholeMoney(L.oaMonthly - L.monthly)} a month to spare`
-    : `No: about ${wholeMoney(L.monthly - L.oaMonthly)} a month in cash`;
+    ? `Yes: about ${money(L.oaMonthly - L.monthly)} a month to spare`
+    : `No: about ${money(L.monthly - L.oaMonthly)} a month in cash`;
   const rows = [
-    ['Most you could borrow', `${wholeMoney(L.max)} (limited by ${L.limitedBy})`],
-    ['Loan in this plan', `${wholeMoney(L.amount)}${L.amount < L.max - 0.5 ? ' (CPF OA is used first)' : ''}`],
+    ['Most you could borrow', `${money(L.max)} (limited by ${L.limitedBy})`],
+    ['Loan in this plan', `${money(L.amount)}${L.amount < L.max - 0.5 ? ' (CPF OA is used first)' : ''}`],
     ['Loan limit', `${pct(L.ltv)} of the price`],
     ['Tenure', `${L.tenure} years`],
     ['Interest rate', `${L.rate}% a year (affordability checked at ${L.assessRate}%)`],
     ['Monthly instalment', money(L.monthly)],
     ['Monthly CPF OA contributions at key collection', money(L.oaMonthly)],
     ['Can CPF contributions cover the instalment?', covered],
-    ['Total interest over the loan', wholeMoney(L.totalInterest)],
+    ['Total interest over the loan', money(L.totalInterest)],
   ];
   return `<div class="limits"><dl>${rows.map(([k, v]) => `<dt>${k}</dt><dd>${v}</dd>`).join('')}</dl></div>`;
 }
@@ -207,8 +207,8 @@ function recoveryHTML(r) {
   const rate = r.recovery;
   return `<h3>Selling a ${r.classification.label} flat later</h3>
     <p>You can sell after ${r.classification.mopYears} years, and never rent out the whole flat. When you sell, you pay HDB
-    ${rate ? `<strong>${rate}%</strong> of the resale price or valuation (whichever is higher): ${wholeMoney(rate * 1000)}
-    for every $100,000 of resale price` : 'a share of the resale price set for the project at launch (enter it above to see it)'}.</p>`;
+    ${rate ? `<strong>${rate}%</strong> of the resale price or valuation (whichever is higher): ${money(rate * 1000)}
+    for every $100,000.00 of resale price` : 'a share of the resale price set for the project at launch (enter it above to see it)'}.</p>`;
 }
 
 function footnoteHTML(r) {
@@ -216,7 +216,7 @@ function footnoteHTML(r) {
     after the launch and the AFL ${BTO_CONFIG.assumptions.aflMonthsAfterBooking} months after booking (HDB allows up to
     ${HDB_DATA.timeline.aflWithinMonthsOfBooking}). Income is today's monthly salaries; HDB uses the 12-month average before the HFE
     application. CPF OA grows with contributions at CPF's rates (Singapore Citizen rates, salary up to
-    ${wholeMoney(CPF_DATA.contributions.owCeiling)} a month, no bonuses) and ${CPF_DATA.interest.base.oa}% interest. The grant is
+    ${money(CPF_DATA.contributions.owCeiling)} a month, no bonuses) and ${CPF_DATA.interest.base.oa}% interest. The grant is
     paid into the first-timers' OA at ${r.grant.stage === 'keys' ? 'key collection' : 'the AFL signing'}. CPF OA is used before the
     loan and before cash. Fees assume HDB acts for you. Not included: fire insurance and Home Protection Scheme premiums,
     resale levy, and moving costs. Figures from HDB and CPF are in the <a href="data.html">Data &amp; sources</a> page.</p>`;

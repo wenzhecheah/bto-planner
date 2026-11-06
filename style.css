@@ -142,7 +142,23 @@ th:nth-child(2), td:nth-child(2) { text-align: left; }
 }
 
 /* ---- BTO Planner additions (the rules above are the CPF Forecast Calculator's) ---- */
-.site-nav { display: flex; flex-wrap: wrap; gap: 6px 24px; margin-top: 20px; }
+/* Page links: a bar under the header that stays at the top while scrolling.
+   It carries the header's gold horizon line. */
+.masthead { padding-bottom: 20px; }
+.masthead::after { display: none; }
+.site-nav-bar { position: sticky; top: 0; z-index: 10; background: var(--navy); padding: 12px var(--gutter) 0; }
+.site-nav-bar::after { content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
+  background: linear-gradient(to right, transparent, rgba(201, 158, 16, .6) 30%, rgba(201, 158, 16, .6) 70%, transparent); }
+.site-nav { display: flex; flex-wrap: wrap; gap: 6px 24px; max-width: var(--page); margin: 0 auto; }
+.site-nav a { padding-top: 4px; }
+
+/* Back to top: shows once the page is scrolled. */
+.to-top { position: fixed; right: 20px; bottom: 20px; z-index: 20; width: 48px; height: 48px; padding: 0;
+  border-radius: 50%; display: grid; place-items: center; letter-spacing: 0;
+  box-shadow: 0 8px 20px -8px rgba(17, 13, 64, .5);
+  opacity: 0; visibility: hidden; transform: translateY(12px); transition: opacity .2s, transform .2s, visibility .2s; }
+.to-top.show { opacity: 1; visibility: visible; transform: none; }
+.to-top svg { width: 22px; height: 22px; }
 .site-nav a { color: rgba(255, 255, 255, .8); text-decoration: none; font-size: 13px; font-weight: 500;
   letter-spacing: .16em; text-transform: uppercase; padding-bottom: 6px; border-bottom: 2px solid transparent; }
 .site-nav a:hover { color: #fff; }
@@ -192,7 +208,7 @@ main a.button-link { color: var(--navy); }
 .data-section h2 { margin-top: 0; font-size: 21px; }
 .data-meta { font-size: 13px; color: var(--muted); }
 .due { background: #fbeceb; color: var(--down); font-weight: 600; padding: 1px 6px; border-radius: var(--radius); }
-.data-dl { display: grid; grid-template-columns: minmax(140px, auto) 1fr; gap: 6px 16px; margin: 0; font-size: 14px; }
+.data-dl { display: grid; grid-template-columns: minmax(0, max-content) minmax(0, 1fr); gap: 6px 16px; margin: 0; font-size: 14px; }
 .data-dl dt { color: var(--muted); }
 .data-dl dd { margin: 0; min-width: 0; }
 .data-section .table-wrap { max-height: none; margin-top: 12px; }
@@ -201,7 +217,7 @@ main a.button-link { color: var(--navy); }
 .data-section .text-table { font-size: 13px; }
 
 @media print {
-  .site-nav, .button-link { display: none; }
+  .site-nav-bar, .button-link, .to-top { display: none !important; }
   .step, .panel { box-shadow: none; }
 }
 /* Grant tables: equal columns, so the two tables line up. */
@@ -209,3 +225,15 @@ main a.button-link { color: var(--navy); }
 /* Downpayment schedule: a line between payment schemes. */
 .schedule tr.group-start td { border-top: 2px solid var(--border); }
 .schedule td[rowspan] { background: var(--surface) !important; }
+/* Phones: keep the three page links on one line. */
+@media (max-width: 480px) {
+  .site-nav { gap: 6px 16px; flex-wrap: nowrap; }
+  .site-nav a { font-size: 12px; letter-spacing: .06em; white-space: nowrap; }
+  .to-top { right: 16px; bottom: 16px; }
+  .data-dl { grid-template-columns: minmax(0, 1fr); gap: 2px; }
+  .data-dl dd { margin-bottom: 8px; }
+}
+@media (max-width: 359px) {
+  .site-nav { gap: 6px 12px; }
+  .site-nav a { font-size: 11px; letter-spacing: .03em; }
+}

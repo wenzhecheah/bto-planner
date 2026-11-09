@@ -1,7 +1,7 @@
 // HDB DATABASE: every HDB (and MAS) figure and rule the BTO planner uses.
 // Data only: no calculations here (those are in engine.js). CPF figures
-// (contribution rates, OA interest) are in cpf-data.js, copied unchanged from
-// the CPF Forecast Calculator: update both apps together.
+// (contribution rates, OA interest) are in the CPF Forecast Calculator's
+// cpf-data.js, which the pages load from its site.
 //
 // Each section says where its figures come from (`source`) and when they were
 // last checked against that source (`verified`). The "Data & sources" page

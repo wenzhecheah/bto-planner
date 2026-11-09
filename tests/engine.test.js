@@ -7,9 +7,16 @@ const fs = require('node:fs');
 const path = require('node:path');
 const vm = require('node:vm');
 
+// The CPF files live in the CPF Forecast Calculator (the pages load them from its
+// site), so the tests read them from a copy of that repo cloned next to this one.
+const cpfDir = process.env.CPF_DIR || path.join(__dirname, '..', '..', 'cpf-forecast-calculator');
+if (!fs.existsSync(path.join(cpfDir, 'cpf-data.js'))) {
+  throw new Error(`CPF files not found in ${cpfDir}. Clone cpf-forecast-calculator next to this repo, or set CPF_DIR.`);
+}
 const ctx = vm.createContext({});
-for (const f of ['cpf-data.js', 'cpf-lookups.js', 'hdb-data.js', 'config.js', 'engine.js']) {
-  vm.runInContext(fs.readFileSync(path.join(__dirname, '..', f), 'utf8'), ctx, { filename: f });
+for (const f of [path.join(cpfDir, 'cpf-data.js'), path.join(cpfDir, 'cpf-lookups.js'),
+  ...['hdb-data.js', 'config.js', 'engine.js'].map(f => path.join(__dirname, '..', f))]) {
+  vm.runInContext(fs.readFileSync(f, 'utf8'), ctx, { filename: path.basename(f) });
 }
 const run = code => vm.runInContext(code, ctx);
 const call = (fn, ...args) => run(fn)(...args);

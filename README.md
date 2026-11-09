@@ -26,7 +26,7 @@ entered leaves the browser.
 | File | What's in it |
 |---|---|
 | `hdb-data.js` | HDB and MAS figures: launches, income ceilings, grants, loans, payment schedules, fees, ballot rules. Each section has `source` links and a `verified` date. |
-| `cpf-data.js`, `cpf-lookups.js` | CPF contribution rates and OA interest. **Copied unchanged from the CPF Forecast Calculator**: update both apps together. |
+| CPF figures | CPF contribution rates and OA interest come from the CPF Forecast Calculator's `cpf-data.js` and `cpf-lookups.js`, which the pages load from its site. Update CPF figures there only: both apps pick them up. |
 | `config.js` | Planning assumptions (e.g. booking 3 months after launch) and form defaults. No official figures. |
 
 To update a figure: change it in `hdb-data.js`, update that section's
@@ -39,7 +39,9 @@ page all read from the database, so nothing else needs to change.
 - `planner.js`, `guide.js`, `data.js`: one per page. `common.js`: shared helpers.
 - `style.css`: the CPF Forecast Calculator's styles, with BTO additions at the end.
 
-Run the tests (Node 18 or later):
+Run the tests (Node 18 or later). They need the CPF Forecast Calculator
+cloned next to this repo (`../cpf-forecast-calculator`), or its folder set in
+`CPF_DIR`:
 
 ```
 node --test

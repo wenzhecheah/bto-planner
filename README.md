@@ -37,6 +37,7 @@ page all read from the database, so nothing else needs to change.
 
 - `engine.js`: all calculations (no page code), tested in `tests/`.
 - `planner.js`, `guide.js`, `data.js`: one per page. `common.js`: shared helpers.
+  `fade-in.js`: the page's parts fade in one by one when it opens.
 - `style.css`: the CPF Forecast Calculator's styles, with BTO additions at the end.
 
 Run the tests (Node 18 or later). They need the CPF Forecast Calculator
